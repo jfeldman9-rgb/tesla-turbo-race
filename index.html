@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gas Station Stadium - Sponsored by Sevo</title>
+  <meta name="description" content="Six racers. Four race lengths. One gloriously random stadium champion." />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="css/game.css" />
+</head>
+<body>
+  <div class="shell">
+    <section class="intro" id="intro">
+      <video id="introVid" src="gas-station-intro.mp4" poster="gas-station-intro-poster.webp" playsinline muted></video>
+      <div class="introShade"></div>
+      <header class="introHeader">
+        <div class="brand"><span class="brandBolt">G</span><span><b>GAS STATION</b><em>STADIUM · BY SEVO</em></span></div>
+        <button class="ghost" id="skipIntro">SKIP INTRO →</button>
+      </header>
+      <div class="introPrompt">
+        <p>SEVO PRESENTS · A GAS STATION STADIUM FILM</p>
+        <h1>Start your <span>engines.</span></h1>
+        <button class="primary" id="playIntro">PLAY INTRO WITH SOUND ▶</button>
+        <small>15 SECOND FEATURE · DUCKS WERE NOT CONSULTED</small>
+      </div>
+    </section>
+
+    <section class="setup hidden" id="setup1">
+      <div class="brand"><span class="brandBolt">G</span><span><b>GAS STATION</b><em>STADIUM · BY SEVO</em></span></div>
+      <p class="kicker">SETUP 01</p>
+      <h2>How many named players?</h2>
+      <div class="row" id="playerCount"></div>
+      <p class="kicker">RACE LENGTH</p>
+      <div class="row" id="raceLen"></div>
+      <label class="toggle"><input type="checkbox" id="announcer" checked /> Sevo voice announcer</label>
+      <button class="primary" id="toNames">NAME THE DRIVERS →</button>
+    </section>
+
+    <section class="setup hidden" id="setup2">
+      <p class="kicker">SETUP 02</p>
+      <h2>Name the drivers</h2>
+      <div class="drivers" id="driverCards"></div>
+      <div class="row"><button class="primary" id="startRace">START YOUR ENGINES</button></div>
+    </section>
+
+    <section class="race stad hidden" id="race">
+      <div class="hud">
+        <div class="brand"><span class="brandBolt">G</span><span><b>GAS STATION STADIUM</b><em>LIVE</em></span></div>
+        <div class="timer" id="timer">00:00:00</div>
+        <div>
+          <button class="ghost" id="mute">SOUND</button>
+          <button class="ghost" id="exitRace">EXIT</button>
+        </div>
+      </div>
+      <div class="lanes" id="lanes"></div>
+      <div class="count hidden" id="count"></div>
+    </section>
+
+    <section class="results hidden" id="results">
+      <p class="kicker">GAS STATION STADIUM · CHAMPION</p>
+      <h2 id="champ">—</h2>
+      <div class="podium" id="podium"></div>
+      <div class="row">
+        <button class="primary" id="again">RACE AGAIN</button>
+        <button class="ghost" id="change">CHANGE DRIVERS</button>
+      </div>
+    </section>
+  </div>
+  <audio id="bgm" src="cruisn-the-world.mp3" loop></audio>
+  <script src="js/game.js"></script>
+</body>
+</html>
