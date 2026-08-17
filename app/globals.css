@@ -1,0 +1,3148 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #f5f7fb;
+  --muted: #99a2b3;
+  --panel: rgba(12, 15, 23, 0.9);
+  --line: rgba(255, 255, 255, 0.13);
+  --red: #ff234f;
+  --yellow: #f8d24a;
+  --cyan: #45d9ff;
+  --night: #070910;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--night);
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: var(--night);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  overscroll-behavior: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.gameShell {
+  min-height: 100svh;
+  background: var(--night);
+  isolation: isolate;
+}
+
+.setupScreen {
+  position: relative;
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background:
+    radial-gradient(circle at 16% 20%, rgba(255, 35, 79, 0.2), transparent 30%),
+    radial-gradient(circle at 86% 72%, rgba(69, 217, 255, 0.13), transparent 33%),
+    linear-gradient(125deg, rgba(4, 6, 11, 0.93), rgba(12, 14, 23, 0.88)),
+    url("/tesla-race-background.png") center / cover;
+}
+
+.setupScreen::after {
+  position: absolute;
+  right: -7vw;
+  bottom: -21vw;
+  width: 52vw;
+  height: 52vw;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 5vw rgba(255, 255, 255, 0.018),
+    0 0 0 11vw rgba(255, 255, 255, 0.014);
+  content: "";
+  pointer-events: none;
+}
+
+.ambientGrid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-position: center;
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, black, transparent 82%);
+  pointer-events: none;
+}
+
+.setupHeader,
+.raceHeader {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.setupHeader {
+  width: min(1220px, calc(100% - 48px));
+  flex: 0 0 auto;
+  margin: 0 auto;
+  padding: 24px 0;
+}
+
+.brandMark {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  min-width: max-content;
+}
+
+.brandMark > span:last-child {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.brandMark b {
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 0.35em;
+}
+
+.brandMark em {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.36em;
+}
+
+.brandBolt {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff234f, #b30d32);
+  box-shadow: 0 10px 32px rgba(255, 35, 79, 0.3);
+  font-size: 23px;
+  font-weight: 1000;
+  font-style: italic;
+}
+
+.soundButton,
+.textButton,
+.raceActions button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.soundButton {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  color: #c3cad7;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+}
+
+.soundButton span {
+  display: grid;
+  width: 21px;
+  height: 21px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(69, 217, 255, 0.14);
+  color: var(--cyan);
+  font-size: 15px;
+}
+
+.setupPanel {
+  position: relative;
+  z-index: 2;
+  width: min(1040px, calc(100% - 40px));
+  flex: 0 0 auto;
+  margin: auto;
+  padding: clamp(27px, 4vw, 54px);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(17, 20, 31, 0.94), rgba(7, 9, 15, 0.89));
+  box-shadow: 0 38px 100px rgba(0, 0, 0, 0.56);
+  backdrop-filter: blur(26px);
+}
+
+.phase-drivers .setupPanel {
+  margin: 12px auto 20px;
+}
+
+.setupPanel::before {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), transparent 34%);
+  content: "";
+  pointer-events: none;
+}
+
+.stepLabel,
+.kicker {
+  color: var(--red);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.24em;
+}
+
+.stepLabel {
+  position: absolute;
+  top: 17px;
+  right: 22px;
+  color: #70798a;
+}
+
+.kicker {
+  margin: 0 0 14px;
+}
+
+.countStep {
+  max-width: 830px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.setupPanel h1 {
+  margin: 0;
+  font-size: clamp(42px, 6vw, 76px);
+  font-weight: 870;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+}
+
+.setupPanel h1 span {
+  color: transparent;
+  background: linear-gradient(100deg, #ffffff, #aab3c3);
+  background-clip: text;
+}
+
+.setupLead {
+  max-width: 640px;
+  margin: 20px auto 0;
+  color: #a9b0be;
+  font-size: clamp(14px, 1.6vw, 17px);
+  line-height: 1.65;
+}
+
+.numberPicker {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin: clamp(28px, 4.5vw, 47px) 0 30px;
+}
+
+.numberPicker button {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 103px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.numberPicker button:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.numberPicker button.selected {
+  border-color: var(--red);
+  background: linear-gradient(145deg, rgba(255, 35, 79, 0.22), rgba(255, 35, 79, 0.07));
+  box-shadow: 0 12px 32px rgba(255, 35, 79, 0.16), inset 0 0 0 1px rgba(255, 35, 79, 0.25);
+}
+
+.numberPicker button.selected::after {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 12px var(--red);
+  content: "";
+}
+
+.numberPicker b {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.numberPicker span {
+  margin-top: 9px;
+  color: #747e8f;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+}
+
+.primaryButton {
+  min-width: 230px;
+  padding: 0 22px;
+  background: linear-gradient(100deg, #ff1f4d, #e20d3a);
+  box-shadow: 0 15px 42px rgba(255, 35, 79, 0.28);
+}
+
+.primaryButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 19px 52px rgba(255, 35, 79, 0.4);
+}
+
+.primaryButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+  filter: saturate(0.35);
+}
+
+.secondaryButton {
+  min-width: 180px;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.setupFooter {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 23px;
+  color: #6e7787;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.setupFooter i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.setupTitleRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 27px;
+}
+
+.setupTitleRow h1 {
+  font-size: clamp(38px, 5vw, 62px);
+}
+
+.textButton {
+  padding: 10px 0;
+  color: #9ba4b3;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.driverGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 11px;
+}
+
+.driverCard {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.driverCardTop {
+  display: flex;
+  height: 42px;
+  align-items: flex-start;
+  justify-content: space-between;
+  color: #788294;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.driverCard label {
+  display: block;
+  margin-top: 10px;
+}
+
+.driverCard label > span {
+  display: block;
+  margin-bottom: 6px;
+  color: #808999;
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.driverCard input,
+.driverCard select {
+  width: 100%;
+  height: 41px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  background: rgba(3, 5, 9, 0.66);
+  color: #f4f6fb;
+  font-size: 13px;
+}
+
+.driverCard input {
+  padding: 0 11px;
+}
+
+.driverCard select {
+  padding: 0 30px 0 10px;
+}
+
+.driverCard input::placeholder {
+  color: #596273;
+}
+
+.rosterPreview {
+  display: grid;
+  grid-template-columns: auto repeat(6, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.rosterLabel {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+  color: #6f7888;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.rosterPreview > div {
+  display: flex;
+  min-width: 0;
+  height: 36px;
+  align-items: center;
+  gap: 7px;
+  padding: 0 8px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 7px;
+  color: #788192;
+  overflow: hidden;
+}
+
+.rosterPreview > div.claimed {
+  border-color: rgba(255, 35, 79, 0.38);
+  background: rgba(255, 35, 79, 0.08);
+  color: white;
+}
+
+.rosterPreview > div b {
+  color: var(--red);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+}
+
+.rosterPreview > div span {
+  overflow: hidden;
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.startButton {
+  display: flex;
+  width: min(420px, 100%);
+  margin: 20px auto 0;
+}
+
+/* Racer artwork */
+.racerVisual {
+  position: relative;
+  width: 112px;
+  height: 57px;
+  filter: drop-shadow(0 8px 5px rgba(0, 0, 0, 0.4));
+}
+
+.racerVisual.compact {
+  width: 78px;
+  height: 40px;
+  transform: scale(0.82);
+  transform-origin: top right;
+}
+
+.carVisual .carBody {
+  position: absolute;
+  right: 2px;
+  bottom: 10px;
+  width: 103px;
+  height: 28px;
+  border: 1px solid color-mix(in srgb, var(--car) 70%, white);
+  border-radius: 12px 26px 8px 10px;
+  background: linear-gradient(175deg, color-mix(in srgb, var(--car) 70%, white), var(--car) 46%, var(--car-dark));
+  box-shadow: inset 0 -5px 7px rgba(0, 0, 0, 0.25), inset 0 2px 2px rgba(255, 255, 255, 0.38);
+}
+
+.carVisual .carBody::before {
+  position: absolute;
+  right: 26px;
+  bottom: 20px;
+  width: 59px;
+  height: 22px;
+  border: 1px solid color-mix(in srgb, var(--car) 78%, white);
+  border-bottom: 0;
+  border-radius: 30px 27px 0 0;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--car) 78%, white), var(--car));
+  clip-path: polygon(18% 0, 72% 0, 100% 100%, 0 100%);
+  content: "";
+}
+
+.carVisual .window {
+  position: absolute;
+  z-index: 2;
+  bottom: 23px;
+  height: 14px;
+  background: linear-gradient(150deg, #bdeaff, #24374d 70%);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.55);
+}
+
+.carVisual .window.rear {
+  left: 28px;
+  width: 24px;
+  clip-path: polygon(25% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.carVisual .window.front {
+  left: 54px;
+  width: 26px;
+  clip-path: polygon(0 0, 65% 0, 100% 100%, 0 100%);
+}
+
+.carVisual .headlight {
+  position: absolute;
+  right: 2px;
+  top: 9px;
+  width: 9px;
+  height: 5px;
+  border-radius: 3px 7px 2px 3px;
+  background: #eaffff;
+  box-shadow: 6px 0 14px 3px rgba(196, 249, 255, 0.58);
+}
+
+.wheel {
+  position: absolute;
+  z-index: 3;
+  bottom: 3px;
+  width: 18px;
+  height: 18px;
+  border: 4px solid #11141b;
+  border-radius: 50%;
+  background: radial-gradient(circle, #bac2ce 0 22%, #3b424e 24% 46%, #0a0b0e 48%);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  animation: wheelSpin 480ms linear infinite;
+}
+
+.wheelRear { left: 17px; }
+.wheelFront { right: 14px; }
+
+.speedTrail {
+  position: absolute;
+  left: -31px;
+  bottom: 18px;
+  width: 37px;
+  height: 10px;
+  border-top: 2px solid rgba(69, 217, 255, 0.85);
+  border-bottom: 2px solid rgba(69, 217, 255, 0.42);
+  opacity: 0.5;
+  filter: blur(0.4px);
+}
+
+.carVisual.compact .carBody {
+  width: 91px;
+}
+
+.carVisual.suv .carBody,
+.carVisual.crossover .carBody {
+  height: 32px;
+  border-radius: 10px 22px 7px 9px;
+}
+
+.carVisual.suv .carBody::before {
+  right: 20px;
+  width: 67px;
+  height: 27px;
+  border-radius: 19px 22px 0 0;
+}
+
+.carVisual.crossover .carBody::before {
+  right: 22px;
+  width: 64px;
+  height: 25px;
+}
+
+.rocketVisual {
+  display: flex;
+  align-items: center;
+}
+
+.rocketBody {
+  position: absolute;
+  right: 0;
+  bottom: 11px;
+  width: 104px;
+  height: 27px;
+  border: 1px solid #e5ebf2;
+  border-radius: 42% 100% 100% 42%;
+  background: linear-gradient(#f6f8fa, #8f99a6 54%, #505864);
+  box-shadow: inset 0 4px 5px rgba(255, 255, 255, 0.7), inset 0 -5px 6px rgba(0, 0, 0, 0.25);
+}
+
+.rocketBody::before,
+.rocketBody::after {
+  position: absolute;
+  left: 19px;
+  width: 32px;
+  height: 17px;
+  border-radius: 50% 5px 4px 50%;
+  background: linear-gradient(135deg, #aab4c0, #4c535e);
+  content: "";
+}
+
+.rocketBody::before {
+  bottom: 19px;
+  transform: skewX(-24deg);
+}
+
+.rocketBody::after {
+  top: 19px;
+  transform: skewX(24deg);
+}
+
+.rocketBody i {
+  position: absolute;
+  top: 7px;
+  right: 20px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #647182;
+  border-radius: 50%;
+  background: #78d8f8;
+}
+
+.rocketBody b {
+  position: absolute;
+  left: 5px;
+  top: 4px;
+  width: 10px;
+  height: 19px;
+  border-radius: 3px 0 0 3px;
+  background: #4f5865;
+}
+
+.rocketFlame {
+  position: absolute;
+  left: -31px;
+  bottom: 17px;
+  width: 45px;
+  height: 17px;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+  background: linear-gradient(90deg, transparent, #ff2b51 25%, #ffae29 62%, white);
+  filter: drop-shadow(-4px 0 6px #ff2b51);
+  animation: flamePulse 140ms ease-in-out infinite alternate;
+}
+
+.dogeVisual img {
+  position: absolute;
+  inset: -14px -16px -13px -18px;
+  width: calc(100% + 34px);
+  height: calc(100% + 27px);
+  object-fit: contain;
+}
+
+@keyframes wheelSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes flamePulse {
+  to { transform: scaleX(0.74); opacity: 0.72; }
+}
+
+/* Race screen */
+.raceScreen {
+  display: flex;
+  width: 100%;
+  height: 100svh;
+  min-height: 520px;
+  flex-direction: column;
+  overflow: hidden;
+  background: #05070c;
+}
+
+.raceHeader {
+  height: 76px;
+  flex: 0 0 76px;
+  padding: 0 clamp(16px, 3vw, 42px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 7, 12, 0.95);
+}
+
+.raceClock {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+.raceClock span {
+  margin-bottom: 3px;
+  color: #6d7788;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+}
+
+.raceClock b {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: clamp(22px, 3.2vw, 34px);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.07em;
+}
+
+.raceActions {
+  display: flex;
+  gap: 8px;
+}
+
+.raceActions button {
+  min-width: 42px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  color: #9da6b5;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.course {
+  --race-progress: 0%;
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: #2b1c3f url("/tesla-race-background.png") center / cover no-repeat;
+}
+
+.course::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(5, 7, 12, 0.58), transparent 15%, transparent 80%, rgba(5, 7, 12, 0.54)),
+    linear-gradient(to bottom, rgba(4, 6, 11, 0.26), transparent 30%, rgba(4, 6, 11, 0.28));
+  content: "";
+  pointer-events: none;
+}
+
+.courseSky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(to bottom, rgba(56, 19, 96, 0.18), transparent 42%, rgba(3, 4, 8, 0.25));
+}
+
+.trackScroll {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: -2000px;
+  width: calc(100% + 4000px);
+  opacity: 0.5;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 102px, rgba(255, 255, 255, 0.22) 102px 154px, transparent 154px 250px);
+  background-position: 0 calc(100% - 7px);
+  background-size: auto 3px;
+  background-repeat: repeat-x;
+  will-change: transform;
+}
+
+.lanes {
+  position: absolute;
+  z-index: 3;
+  inset: 2.5% 0 7%;
+  display: grid;
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+}
+
+.raceLane {
+  position: relative;
+  min-height: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  background: linear-gradient(90deg, rgba(8, 10, 16, 0.2), rgba(255, 255, 255, 0.018), rgba(5, 7, 12, 0.14));
+}
+
+.raceLane:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.raceLane::after {
+  position: absolute;
+  right: 0;
+  bottom: 3px;
+  left: 0;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.18);
+  content: "";
+}
+
+.laneNumber {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 9px;
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  background: rgba(4, 6, 10, 0.72);
+  color: #8e98a8;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  font-weight: 900;
+  transform: translateY(-50%);
+}
+
+.movingRacer {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  width: 112px;
+  height: 57px;
+  transform: translate(-48%, -45%);
+  transition: filter 240ms ease;
+  will-change: left;
+}
+
+.movingRacer.leader {
+  filter: drop-shadow(0 0 12px rgba(248, 210, 74, 0.34));
+}
+
+.movingRacer.leader::after {
+  position: absolute;
+  right: 4px;
+  bottom: -4px;
+  left: 4px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 15px var(--yellow);
+  content: "";
+  opacity: 0.8;
+}
+
+.racerTag {
+  position: absolute;
+  z-index: 6;
+  top: -9px;
+  left: 50%;
+  display: flex;
+  max-width: 142px;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 5px 3px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(6, 8, 13, 0.83);
+  box-shadow: 0 3px 11px rgba(0, 0, 0, 0.32);
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+}
+
+.racerTag b {
+  max-width: 91px;
+  overflow: hidden;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+}
+
+.racerTag span {
+  padding: 2px 4px;
+  border-radius: 999px;
+  background: var(--red);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 6px;
+  font-weight: 950;
+}
+
+.laneObstacle {
+  position: absolute;
+  z-index: 2;
+  top: 54%;
+  width: 21px;
+  height: 21px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 21px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.5));
+}
+
+.obstacle-0 {
+  color: #ff6a2a;
+  text-shadow: 0 -4px #fff3cb;
+}
+
+.obstacle-1 {
+  display: grid;
+  place-items: center;
+  border: 1px solid #bfefff;
+  border-radius: 4px;
+  background: rgba(21, 143, 193, 0.55);
+  color: #e5fbff;
+  box-shadow: 0 0 13px rgba(69, 217, 255, 0.75);
+  font-size: 11px;
+}
+
+.obstacle-2 {
+  color: #1a161d;
+  font-size: 24px;
+  transform: translate(-50%, -46%) scaleX(1.7);
+}
+
+.finishLine {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  right: 5.5%;
+  bottom: 0;
+  width: 15px;
+  background:
+    conic-gradient(#fff 25%, #13151b 0 50%, #fff 0 75%, #13151b 0) 0 0 / 14px 14px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.32);
+}
+
+.finishLine span {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #fff;
+  color: #0a0b0e;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 7px;
+  font-weight: 1000;
+  letter-spacing: 0.12em;
+  transform: translateX(-50%);
+}
+
+.countdownOverlay,
+.winnerOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  background: rgba(3, 5, 9, 0.72);
+  backdrop-filter: blur(7px);
+}
+
+.countdownOverlay {
+  align-content: center;
+  text-align: center;
+}
+
+.countdownOverlay span {
+  color: white;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: clamp(110px, 22vw, 250px);
+  font-weight: 1000;
+  letter-spacing: -0.1em;
+  line-height: 0.76;
+  text-shadow: 0 0 70px rgba(255, 35, 79, 0.55);
+  animation: countdownHit 820ms cubic-bezier(0.18, 0.8, 0.24, 1) both;
+}
+
+.countdownOverlay p {
+  margin: 28px 0 0;
+  color: var(--red);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 0.32em;
+}
+
+@keyframes countdownHit {
+  0% { opacity: 0; transform: scale(1.7); filter: blur(10px); }
+  22% { opacity: 1; transform: scale(1); filter: blur(0); }
+  100% { opacity: 0.92; transform: scale(0.82); }
+}
+
+.momentToast {
+  position: absolute;
+  z-index: 9;
+  top: 13px;
+  left: 50%;
+  max-width: min(620px, calc(100% - 60px));
+  padding: 11px 17px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 9px;
+  background: rgba(7, 9, 14, 0.9);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  color: #b8c0cd;
+  font-size: 12px;
+  text-align: center;
+  transform: translateX(-50%);
+  animation: toastIn 260ms ease-out both;
+  backdrop-filter: blur(12px);
+}
+
+.momentToast > span {
+  margin-right: 9px;
+  color: var(--cyan);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+}
+
+.momentToast.hazard > span { color: #ff8c49; }
+.momentToast.chaos > span { color: #dd7bff; }
+.momentToast b { color: white; }
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+}
+
+.standingsBar {
+  position: absolute;
+  z-index: 8;
+  right: 14px;
+  bottom: 11px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.standingsBar > span {
+  padding: 6px 8px;
+  border-radius: 5px;
+  background: var(--red);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 7px;
+  font-weight: 950;
+  letter-spacing: 0.15em;
+}
+
+.standingsBar > div {
+  max-width: 190px;
+  overflow: hidden;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 5px;
+  background: rgba(5, 7, 12, 0.78);
+  font-size: 9px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+}
+
+.standingsBar > div b {
+  margin-right: 6px;
+  color: var(--yellow);
+  font-family: var(--font-geist-mono), monospace;
+}
+
+.raceProgress {
+  position: relative;
+  height: 7px;
+  flex: 0 0 7px;
+  background: #171b24;
+  overflow: hidden;
+}
+
+.raceProgress i {
+  display: block;
+  width: var(--race-progress, 0%);
+  height: 100%;
+  background: linear-gradient(90deg, var(--red), #ff8a28, var(--yellow));
+  box-shadow: 0 0 15px var(--red);
+}
+
+.winnerOverlay {
+  overflow-y: auto;
+  padding: 18px;
+  background: rgba(3, 5, 9, 0.81);
+}
+
+.winnerCard {
+  position: relative;
+  z-index: 2;
+  width: min(620px, 100%);
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 0, rgba(248, 210, 74, 0.15), transparent 33%),
+    linear-gradient(145deg, rgba(19, 22, 32, 0.98), rgba(7, 9, 14, 0.98));
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.62);
+  text-align: center;
+  animation: winnerRise 520ms cubic-bezier(0.18, 0.9, 0.24, 1) both;
+}
+
+.winnerEyebrow {
+  color: var(--yellow);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: 0.21em;
+}
+
+.winnerVisual {
+  display: grid;
+  width: 160px;
+  height: 82px;
+  margin: 13px auto 0;
+  place-items: center;
+  transform: scale(1.3);
+}
+
+.winnerCard > p {
+  margin: 8px 0 5px;
+  color: #7f8999;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+}
+
+.winnerCard h2 {
+  margin: 0;
+  font-size: clamp(35px, 6vw, 60px);
+  font-weight: 950;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.winnerCard > span {
+  display: block;
+  margin-top: 10px;
+  color: #aeb6c4;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.09em;
+}
+
+.podium {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 25px 0 22px;
+}
+
+.podium > div {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 29px 1fr;
+  grid-template-rows: auto auto;
+  align-items: center;
+  padding: 9px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.035);
+  text-align: left;
+}
+
+.podium b {
+  grid-row: 1 / 3;
+  color: var(--yellow);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 20px;
+}
+
+.podium span,
+.podium small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.podium span {
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.podium small {
+  margin-top: 3px;
+  color: #6f7888;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.winnerActions {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+}
+
+.confetti {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti i {
+  position: absolute;
+  top: -6%;
+  left: var(--x);
+  width: 8px;
+  height: 15px;
+  border-radius: 2px;
+  background: var(--confetti);
+  animation: confettiFall 3.5s var(--delay) linear infinite;
+}
+
+@keyframes confettiFall {
+  to { transform: translate3d(28px, 112vh, 0) rotate(var(--spin)); }
+}
+
+@keyframes winnerRise {
+  from { opacity: 0; transform: translateY(35px) scale(0.93); }
+}
+
+@media (max-width: 800px) {
+  .setupScreen {
+    overflow-y: auto;
+  }
+
+  .setupHeader {
+    width: calc(100% - 30px);
+    padding: 15px 0;
+  }
+
+  .setupPanel {
+    width: calc(100% - 24px);
+    margin: 20px auto;
+    padding: 33px 20px 25px;
+    border-radius: 21px;
+  }
+
+  .setupPanel h1 {
+    font-size: clamp(38px, 11.5vw, 58px);
+  }
+
+  .numberPicker {
+    grid-template-columns: repeat(3, 1fr);
+    margin: 27px 0 24px;
+  }
+
+  .numberPicker button {
+    min-height: 78px;
+  }
+
+  .driverGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rosterPreview {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .rosterLabel {
+    grid-column: 1 / -1;
+    padding: 4px 0 1px;
+  }
+
+  .raceHeader {
+    height: 64px;
+    flex-basis: 64px;
+    padding: 0 12px;
+  }
+
+  .raceHeader .brandMark b {
+    font-size: 13px;
+  }
+
+  .raceHeader .brandMark em {
+    display: none;
+  }
+
+  .raceHeader .brandBolt {
+    width: 31px;
+    height: 31px;
+    border-radius: 9px;
+    font-size: 18px;
+  }
+
+  .raceActions button {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+  }
+
+  .raceActions button:last-child {
+    display: none;
+  }
+
+  .raceClock {
+    left: 57%;
+  }
+
+  .raceClock b {
+    font-size: 21px;
+  }
+
+  .course {
+    background-position: center;
+  }
+
+  .lanes {
+    inset: 3% 0 9%;
+  }
+
+  .laneNumber {
+    left: 5px;
+    width: 21px;
+    height: 21px;
+    font-size: 7px;
+  }
+
+  .movingRacer {
+    transform: translate(-48%, -44%) scale(0.72);
+  }
+
+  .racerTag {
+    top: -4px;
+    max-width: 126px;
+  }
+
+  .finishLine {
+    right: 4.5%;
+    width: 11px;
+    background-size: 10px 10px;
+  }
+
+  .finishLine span {
+    top: 5px;
+    padding: 3px 5px;
+    font-size: 6px;
+  }
+
+  .laneObstacle {
+    transform: translate(-50%, -50%) scale(0.72);
+  }
+
+  .standingsBar {
+    right: 7px;
+    bottom: 6px;
+    left: 7px;
+    justify-content: flex-start;
+    gap: 4px;
+  }
+
+  .standingsBar > div {
+    max-width: calc((100vw - 63px) / 3);
+    padding: 5px 6px;
+    font-size: 7px;
+  }
+
+  .standingsBar > span {
+    padding: 5px 6px;
+    font-size: 6px;
+  }
+
+  .momentToast {
+    top: 6px;
+    max-width: calc(100% - 24px);
+    padding: 7px 10px;
+    font-size: 9px;
+  }
+
+  .momentToast > span {
+    display: block;
+    margin: 0 0 2px;
+    font-size: 6px;
+  }
+
+  .winnerOverlay {
+    place-items: start center;
+    padding: 14px;
+  }
+
+  .winnerCard {
+    margin: auto 0;
+    padding: 22px 16px;
+    border-radius: 19px;
+  }
+
+  .winnerVisual {
+    height: 65px;
+    transform: scale(1.04);
+  }
+
+  .podium {
+    margin: 18px 0;
+  }
+
+  .podium > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px;
+  }
+
+  .podium b {
+    font-size: 16px;
+  }
+
+  .podium span {
+    width: 100%;
+  }
+
+  .winnerActions {
+    flex-direction: column;
+  }
+
+  .winnerActions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .soundButton {
+    padding: 8px;
+    font-size: 0;
+  }
+
+  .setupFooter {
+    gap: 9px;
+    padding: 15px 6px;
+    font-size: 6px;
+  }
+
+  .setupTitleRow {
+    align-items: flex-start;
+  }
+
+  .driverGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .driverCard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .driverCardTop {
+    grid-column: 1 / -1;
+  }
+
+  .driverCard label {
+    min-width: 0;
+    margin-top: 0;
+  }
+
+  .driverCard input,
+  .driverCard select {
+    font-size: 16px;
+  }
+
+  .raceHeader .brandMark > span:last-child {
+    display: none;
+  }
+
+  .raceClock {
+    left: 47%;
+  }
+
+  .movingRacer {
+    transform: translate(-47%, -42%) scale(0.61);
+  }
+
+  .racerTag {
+    top: 1px;
+  }
+}
+
+@media (max-height: 650px) and (orientation: landscape) {
+  .raceHeader {
+    height: 52px;
+    flex-basis: 52px;
+  }
+
+  .raceHeader .brandMark em,
+  .raceClock span {
+    display: none;
+  }
+
+  .raceHeader .brandBolt {
+    width: 30px;
+    height: 30px;
+  }
+
+  .movingRacer {
+    transform: translate(-48%, -44%) scale(0.64);
+  }
+
+  .racerTag {
+    top: 1px;
+  }
+
+  .winnerCard {
+    width: min(700px, 94%);
+    padding: 16px 24px;
+  }
+
+  .winnerVisual {
+    display: none;
+  }
+
+  .winnerCard h2 {
+    font-size: 38px;
+  }
+
+  .podium {
+    margin: 13px 0;
+  }
+}
+
+/* Interactive intro, race-length controls, animated Doge, and full results */
+.phase-intro {
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.introScreen {
+  position: relative;
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  overflow: hidden;
+  background: #020306;
+  isolation: isolate;
+}
+
+.introScreen::before {
+  position: absolute;
+  z-index: 0;
+  inset: -8%;
+  background:
+    linear-gradient(180deg, rgba(3, 5, 9, 0.22), rgba(3, 5, 9, 0.66)),
+    url("/gas-station-intro-poster.webp") center / cover no-repeat;
+  content: "";
+  filter: blur(34px) saturate(1.16);
+  opacity: 0.72;
+  transform: scale(1.15);
+}
+
+.introVideo {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.36);
+  object-fit: contain;
+  filter: contrast(1.02) saturate(1.05);
+}
+
+.introShade {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(2, 4, 8, 0.76), transparent 22%, transparent 60%, rgba(2, 4, 8, 0.93)),
+    linear-gradient(90deg, rgba(2, 4, 8, 0.48), transparent 25%, transparent 75%, rgba(2, 4, 8, 0.48));
+  pointer-events: none;
+}
+
+.introHeader {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  width: min(1240px, calc(100% - 48px));
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 24px 0;
+}
+
+.introSkip {
+  padding: 11px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 9px;
+  background: rgba(5, 7, 12, 0.68);
+  color: #d9dee8;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+}
+
+.introPrompt {
+  position: absolute;
+  z-index: 5;
+  right: 20px;
+  bottom: clamp(28px, 7vh, 72px);
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.82);
+}
+
+.introPrompt p,
+.introPrompt small,
+.introNowPlaying {
+  font-family: var(--font-geist-mono), monospace;
+  font-weight: 900;
+  letter-spacing: 0.17em;
+}
+
+.introPrompt p {
+  margin: 0 0 10px;
+  color: #ff4566;
+  font-size: 8px;
+}
+
+.introPrompt h1 {
+  max-width: 800px;
+  margin: 0 0 24px;
+  font-size: clamp(45px, 7vw, 92px);
+  font-weight: 950;
+  letter-spacing: -0.065em;
+  line-height: 0.88;
+}
+
+.introPrompt h1 span {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9);
+}
+
+.introPrompt .primaryButton {
+  margin: 0;
+}
+
+.introPrompt small {
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 6px;
+}
+
+.introNowPlaying {
+  position: absolute;
+  z-index: 5;
+  bottom: 24px;
+  left: 50%;
+  padding: 9px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(3, 5, 9, 0.72);
+  color: #d9dee8;
+  font-size: 7px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  backdrop-filter: blur(12px);
+}
+
+.introNowPlaying i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #ff2e53;
+  box-shadow: 0 0 9px #ff2e53;
+  animation: introPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes introPulse {
+  to { opacity: 0.35; transform: scale(0.72); }
+}
+
+.durationPanel {
+  display: grid;
+  width: min(830px, 100%);
+  grid-template-columns: minmax(155px, 0.72fr) minmax(260px, 1.3fr);
+  gap: 9px 12px;
+  align-items: center;
+  margin: 16px auto 0;
+  padding: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 13px;
+  background: rgba(3, 5, 9, 0.46);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.durationTitle {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding-left: 4px;
+  text-align: left;
+}
+
+.durationTitle span,
+.durationTitle b {
+  font-family: var(--font-geist-mono), monospace;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+}
+
+.durationTitle span {
+  color: #7c8696;
+  font-size: 7px;
+}
+
+.durationTitle b {
+  margin-top: 5px;
+  color: #fff;
+  font-size: 12px;
+}
+
+.durationPicker {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.durationPicker button {
+  display: flex;
+  min-height: 45px;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #aeb6c4;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.durationPicker button:hover {
+  border-color: rgba(255, 255, 255, 0.34);
+  transform: translateY(-1px);
+}
+
+.durationPicker button.selected {
+  border-color: #ff3158;
+  background: linear-gradient(145deg, rgba(255, 35, 79, 0.24), rgba(255, 35, 79, 0.07));
+  box-shadow: 0 0 18px rgba(255, 35, 79, 0.16), inset 0 1px rgba(255, 255, 255, 0.09);
+  color: #fff;
+}
+
+.durationPicker b {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 19px;
+  font-weight: 1000;
+}
+
+.durationPicker span {
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.announcerToggle {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 11px;
+  border: 1px solid rgba(69, 217, 255, 0.18);
+  border-radius: 9px;
+  background: linear-gradient(90deg, rgba(69, 217, 255, 0.08), rgba(255, 255, 255, 0.02));
+  cursor: pointer;
+  text-align: left;
+}
+
+.announcerToggle > span {
+  display: flex;
+  flex-direction: column;
+}
+
+.announcerToggle b,
+.announcerToggle small,
+.announcerToggle em {
+  font-family: var(--font-geist-mono), monospace;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.announcerToggle b {
+  color: #dce4ef;
+  font-size: 8px;
+}
+
+.announcerToggle small {
+  margin-top: 3px;
+  color: #6f7b8d;
+  font-size: 5px;
+}
+
+.announcerToggle em {
+  min-width: 42px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #8b95a5;
+  font-size: 7px;
+  text-align: center;
+}
+
+.announcerToggle.selected em {
+  background: rgba(69, 217, 255, 0.16);
+  box-shadow: 0 0 12px rgba(69, 217, 255, 0.18);
+  color: #64e2ff;
+}
+
+.announcerToggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.assetVisual.doge.racing {
+  overflow: visible;
+}
+
+.dogeRunSprite {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 109px;
+  border: 0;
+  background: transparent;
+  filter: saturate(1.12) contrast(1.08) drop-shadow(0 9px 6px rgba(0, 0, 0, 0.42));
+  object-fit: contain;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.assetVisual.doge.racing .contactShadow {
+  display: none;
+}
+
+.assetVisual.doge.racing .boostTrail,
+.assetVisual.doge.racing .rimFlare {
+  display: none;
+}
+
+.dogeDust {
+  position: absolute;
+  z-index: 2;
+  bottom: 7%;
+  left: 8%;
+  width: 52px;
+  height: 25px;
+  pointer-events: none;
+}
+
+.dogeDust i,
+.dogeDust b,
+.dogeDust em {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(211, 223, 231, 0.48);
+  filter: blur(1px);
+  animation: dogeDustPuff 720ms ease-out infinite;
+}
+
+.dogeDust i { left: 30px; }
+.dogeDust b { left: 22px; animation-delay: -240ms; }
+.dogeDust em { left: 13px; animation-delay: -480ms; }
+
+@keyframes dogeDustPuff {
+  0% { opacity: 0; transform: translate(12px, 0) scale(0.25); }
+  25% { opacity: 0.72; }
+  100% { opacity: 0; transform: translate(-30px, -12px) scale(1.3); }
+}
+
+.winnerCard {
+  width: min(980px, 100%);
+  padding: clamp(18px, 3vw, 30px);
+}
+
+.resultsLayout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.78fr) minmax(390px, 1.22fr);
+  gap: 22px;
+  align-items: center;
+}
+
+.championPanel {
+  min-width: 0;
+  text-align: center;
+}
+
+.championPanel > p {
+  margin: 8px 0 5px;
+  color: #7f8999;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+}
+
+.championPanel h2 {
+  margin: 0;
+  font-size: clamp(34px, 4.5vw, 56px);
+  font-weight: 950;
+  letter-spacing: -0.055em;
+  line-height: 0.96;
+}
+
+.championPanel > span {
+  display: block;
+  margin-top: 10px;
+  color: #aeb6c4;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.finalStandings {
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 15px;
+  background: rgba(2, 4, 8, 0.42);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.05);
+  text-align: left;
+}
+
+.resultsHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1px 2px 9px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 7px;
+  font-weight: 950;
+  letter-spacing: 0.13em;
+}
+
+.resultsHeading span { color: #9ba5b4; }
+.resultsHeading b { color: #ff4566; }
+
+.finalStandings ol {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.finalStandings li {
+  display: grid;
+  min-width: 0;
+  min-height: 47px;
+  grid-template-columns: 31px 72px minmax(0, 1fr) auto;
+  gap: 7px;
+  align-items: center;
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.finalStandings li.winnerResult {
+  border-color: rgba(248, 210, 74, 0.5);
+  background: linear-gradient(90deg, rgba(248, 210, 74, 0.12), rgba(255, 255, 255, 0.025));
+  box-shadow: 0 0 18px rgba(248, 210, 74, 0.08);
+}
+
+.finalStandings li > b {
+  color: #f8d24a;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 17px;
+  font-weight: 1000;
+}
+
+.resultMachine {
+  position: relative;
+  display: grid;
+  width: 72px;
+  height: 37px;
+  place-items: center;
+  overflow: visible;
+}
+
+.resultMachine .racerVisual.compact {
+  width: 72px;
+  height: 37px;
+  filter: drop-shadow(0 5px 3px rgba(0, 0, 0, 0.46));
+}
+
+.resultMachine .boostTrail,
+.resultMachine .rimFlare,
+.resultMachine .contactShadow {
+  display: none;
+}
+
+.finalStandings li > span {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.finalStandings strong,
+.finalStandings small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finalStandings strong {
+  color: #f1f4f8;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.finalStandings small {
+  margin-top: 3px;
+  color: #6f7989;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 5px;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+}
+
+.finalStandings li > em {
+  padding: 5px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #8f99a8;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 6px;
+  font-style: normal;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+}
+
+.finalStandings .winnerResult > em {
+  background: rgba(248, 210, 74, 0.15);
+  color: #f8d24a;
+}
+
+.winnerActions {
+  margin-top: 18px;
+}
+
+@media (max-width: 720px) {
+  .introHeader {
+    width: calc(100% - 28px);
+    padding: 15px 0;
+  }
+
+  .introHeader .brandMark b { font-size: 11px; }
+  .introHeader .brandMark em { font-size: 6px; }
+  .introHeader .brandBolt { width: 38px; height: 38px; }
+
+  .introPrompt {
+    bottom: 38px;
+  }
+
+  .introPrompt h1 {
+    margin-bottom: 20px;
+    font-size: clamp(46px, 14vw, 68px);
+  }
+
+  .durationPanel {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .durationTitle {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2px;
+  }
+
+  .durationTitle b { margin-top: 0; }
+
+  .resultsLayout {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .winnerOverlay {
+    align-items: flex-start;
+  }
+
+  .winnerCard {
+    margin: auto;
+    padding: 16px;
+  }
+
+  .winnerVisual {
+    height: 72px;
+  }
+
+  .winnerVisual .racerVisual {
+    width: 165px;
+    height: 76px;
+  }
+
+  .championPanel h2 {
+    font-size: 38px;
+  }
+
+  .championPanel > span {
+    margin-top: 7px;
+  }
+}
+
+@media (max-width: 480px) {
+  .introSkip {
+    padding: 9px 10px;
+    font-size: 6px;
+  }
+
+  .introPrompt p {
+    max-width: 290px;
+    line-height: 1.6;
+  }
+
+  .introPrompt .primaryButton {
+    width: min(320px, 100%);
+  }
+
+  .durationPicker button {
+    min-height: 42px;
+  }
+
+  .announcerToggle small {
+    max-width: 220px;
+  }
+
+  .winnerOverlay {
+    padding: 9px;
+  }
+
+  .winnerCard {
+    border-radius: 17px;
+  }
+
+  .finalStandings {
+    padding: 9px;
+  }
+
+  .finalStandings li {
+    min-height: 43px;
+    grid-template-columns: 27px 56px minmax(0, 1fr) auto;
+    gap: 5px;
+    padding: 3px 6px;
+  }
+
+  .resultMachine,
+  .resultMachine .racerVisual.compact {
+    width: 56px;
+    height: 31px;
+  }
+
+  .finalStandings strong { font-size: 9px; }
+  .finalStandings li > em { padding: 4px 5px; }
+
+  .winnerActions {
+    gap: 6px;
+  }
+
+  .winnerActions button {
+    min-width: 0;
+    padding-right: 12px;
+    padding-left: 12px;
+    font-size: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Gas Station Stadium console-grade upgrade */
+.setupScreen {
+  background:
+    radial-gradient(circle at 50% 8%, rgba(255, 44, 72, 0.2), transparent 32%),
+    linear-gradient(180deg, rgba(2, 4, 8, 0.52), rgba(4, 6, 10, 0.9)),
+    url("/gas-station-stadium.png") center / cover no-repeat;
+}
+
+.setupScreen::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 5px, rgba(255, 255, 255, 0.012) 5px 6px),
+    linear-gradient(90deg, rgba(3, 5, 9, 0.42), transparent 24%, transparent 76%, rgba(3, 5, 9, 0.42));
+  content: "";
+  pointer-events: none;
+}
+
+.headerSponsor {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.headerSponsor span {
+  color: #737d8d;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.26em;
+}
+
+.headerSponsor b {
+  margin-top: 5px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 0.22em;
+}
+
+.brandMark b {
+  font-size: 15px;
+  letter-spacing: 0.24em;
+}
+
+.brandMark em {
+  color: #e65068;
+  letter-spacing: 0.22em;
+}
+
+.brandBolt {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.28), transparent 34%),
+    linear-gradient(135deg, #fa284f, #7d0922);
+  box-shadow: 0 10px 32px rgba(255, 35, 79, 0.33), inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+.setupPanel {
+  border-color: rgba(255, 255, 255, 0.2);
+  background:
+    linear-gradient(145deg, rgba(20, 24, 34, 0.97), rgba(5, 7, 12, 0.95)),
+    radial-gradient(circle at 50% 0, rgba(255, 35, 79, 0.12), transparent 38%);
+  box-shadow:
+    0 40px 110px rgba(0, 0, 0, 0.72),
+    0 0 65px rgba(255, 35, 79, 0.08),
+    inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.setupPanel::after {
+  position: absolute;
+  top: -1px;
+  right: 12%;
+  left: 12%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff294e, #fff, #ff294e, transparent);
+  box-shadow: 0 0 18px rgba(255, 41, 78, 0.8);
+  content: "";
+}
+
+.selectionRule {
+  margin: 10px 0 0;
+  color: #858f9f;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sponsorBoards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  width: 100%;
+}
+
+.sponsorBoards.compact {
+  position: relative;
+  z-index: 3;
+  width: min(850px, calc(100% - 40px));
+  margin: 12px auto 0;
+}
+
+.sponsor {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 56px;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  align-content: center;
+  column-gap: 9px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.26), inset 0 1px rgba(255, 255, 255, 0.09);
+}
+
+.sponsor::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.09), transparent 26%, transparent 76%, rgba(255, 255, 255, 0.06));
+  content: "";
+  pointer-events: none;
+}
+
+.sponsor > span {
+  grid-row: 1 / 3;
+  align-self: center;
+  padding: 3px 4px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 5px;
+  font-weight: 1000;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+  transform: rotate(-90deg);
+}
+
+.sponsor b,
+.sponsor small {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sponsor b {
+  font-size: clamp(8px, 1vw, 12px);
+  font-weight: 1000;
+  letter-spacing: 0.06em;
+}
+
+.sponsor small {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 6px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.sponsor.coffee {
+  background:
+    radial-gradient(circle at 87% 30%, rgba(255, 188, 87, 0.22), transparent 27%),
+    linear-gradient(130deg, #2b180f, #090706);
+  color: #f3b862;
+}
+
+.sponsor.monster {
+  background:
+    repeating-linear-gradient(118deg, transparent 0 18px, rgba(110, 255, 24, 0.045) 18px 20px),
+    linear-gradient(130deg, #13210d, #050806);
+  color: #8dff3d;
+}
+
+.sponsor.redbull {
+  background:
+    radial-gradient(circle at 84% 30%, rgba(255, 205, 57, 0.19), transparent 25%),
+    linear-gradient(130deg, #17184a, #08091b 66%, #4a111c);
+  color: #ffd33d;
+}
+
+.raceHeader {
+  height: 82px;
+  flex-basis: 82px;
+  border-bottom-color: rgba(255, 255, 255, 0.16);
+  background:
+    linear-gradient(180deg, rgba(15, 18, 25, 0.99), rgba(4, 6, 10, 0.98)),
+    repeating-linear-gradient(90deg, transparent 0 80px, rgba(255, 255, 255, 0.015) 80px 81px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.42);
+}
+
+.raceClock span {
+  color: #d44c62;
+  letter-spacing: 0.13em;
+}
+
+.course {
+  isolation: isolate;
+  background: #030509;
+}
+
+.course::after {
+  z-index: 2;
+  background:
+    linear-gradient(90deg, rgba(2, 4, 8, 0.54), transparent 12%, transparent 85%, rgba(2, 4, 8, 0.58)),
+    linear-gradient(180deg, rgba(2, 4, 8, 0.05), transparent 46%, rgba(2, 4, 8, 0.25));
+}
+
+.stadiumBackdrop {
+  position: absolute;
+  z-index: 0;
+  inset: -4%;
+  background: url("/gas-station-stadium.png") center / cover no-repeat;
+  filter: saturate(1.08) contrast(1.03);
+  transform-origin: center;
+  will-change: transform;
+}
+
+.courseSky {
+  z-index: 1;
+  background:
+    radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(7, 10, 16, 0.06), rgba(7, 9, 14, 0.02) 48%, rgba(5, 7, 11, 0.28));
+}
+
+.crowdFlashes {
+  position: absolute;
+  z-index: 3;
+  inset: 0 0 52%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.crowdFlashes i {
+  position: absolute;
+  top: var(--flash-y);
+  left: var(--flash-x);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 11px 4px rgba(255, 255, 255, 0.72);
+  animation: crowdCamera 4.7s var(--flash-delay) steps(1) infinite;
+}
+
+@keyframes crowdCamera {
+  0%, 83%, 86%, 100% { opacity: 0; }
+  84% { opacity: 1; transform: scale(1.7); }
+  85% { opacity: 0.35; }
+}
+
+.stadiumDeck {
+  position: absolute;
+  z-index: 7;
+  top: 2.3%;
+  right: 3.5%;
+  left: 3.5%;
+  display: grid;
+  grid-template-columns: minmax(190px, 0.72fr) 2.4fr;
+  gap: 9px;
+  align-items: stretch;
+  pointer-events: none;
+}
+
+.venueScoreboard {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.06), transparent 28%),
+    rgba(3, 5, 9, 0.89);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.42), inset 0 0 22px rgba(255, 38, 72, 0.08);
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.venueScoreboard span,
+.venueScoreboard small {
+  font-family: var(--font-geist-mono), monospace;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.venueScoreboard span {
+  color: #778191;
+  font-size: 5px;
+}
+
+.venueScoreboard b {
+  max-width: 100%;
+  margin: 3px 0;
+  overflow: hidden;
+  color: #fff;
+  font-size: clamp(9px, 1.25vw, 15px);
+  font-weight: 1000;
+  letter-spacing: 0.08em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.venueScoreboard small {
+  color: #f13c59;
+  font-size: 6px;
+}
+
+.trackScroll {
+  z-index: 3;
+  top: 41%;
+  bottom: 5%;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 110px, rgba(255, 255, 255, 0.24) 110px 155px, transparent 155px 260px),
+    linear-gradient(180deg, transparent, rgba(72, 220, 255, 0.08) 50%, transparent);
+  background-position: 0 calc(100% - 3px), 0 0;
+  background-size: auto 2px, 100% 100%;
+}
+
+.lanes {
+  z-index: 5;
+  inset: 41% 0 5%;
+}
+
+.raceLane {
+  border-bottom-color: rgba(255, 255, 255, 0.16);
+  background: linear-gradient(90deg, rgba(6, 8, 12, 0.1), rgba(255, 255, 255, 0.018), rgba(5, 7, 11, 0.09));
+}
+
+.raceLane:first-child {
+  border-top-color: rgba(255, 255, 255, 0.16);
+}
+
+.raceLane::after {
+  bottom: 1px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.16);
+}
+
+.laneNumber {
+  left: 8px;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(2, 4, 8, 0.82);
+  box-shadow: 0 0 14px rgba(255, 35, 79, 0.16);
+  color: #cbd2dc;
+}
+
+.racerVisual,
+.racerVisual.compact {
+  position: relative;
+  width: 164px;
+  height: 78px;
+  transform: none;
+  transform-origin: center;
+  filter: drop-shadow(0 10px 6px rgba(0, 0, 0, 0.48));
+}
+
+.racerVisual.compact {
+  width: 92px;
+  height: 46px;
+}
+
+.assetVisual > img {
+  position: absolute;
+  z-index: 3;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  object-fit: contain;
+}
+
+.assetVisual.doge > img {
+  inset: -18% -12%;
+  width: 124%;
+  height: 132%;
+}
+
+.contactShadow {
+  position: absolute;
+  z-index: 1;
+  right: 9%;
+  bottom: 8%;
+  left: 10%;
+  height: 13%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.58);
+  filter: blur(4px);
+}
+
+.boostTrail {
+  position: absolute;
+  z-index: 2;
+  top: 52%;
+  right: 73%;
+  width: 62px;
+  height: 23px;
+  background:
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--car) 68%, #43dcff) 68%, rgba(255, 255, 255, 0.9));
+  clip-path: polygon(0 42%, 100% 0, 100% 100%);
+  opacity: 0.48;
+  filter: blur(1.2px) drop-shadow(0 0 8px var(--car));
+  transform: translateY(-50%) scaleX(0.78);
+  transform-origin: right;
+  animation: boostFlicker 170ms ease-in-out infinite alternate;
+}
+
+.assetVisual.doge .boostTrail {
+  right: 77%;
+  top: 64%;
+  width: 42px;
+  height: 12px;
+  opacity: 0.28;
+}
+
+.rimFlare {
+  position: absolute;
+  z-index: 4;
+  right: 5%;
+  top: 46%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #d9f9ff;
+  box-shadow: 0 0 13px 5px rgba(84, 222, 255, 0.72);
+  animation: headlightPulse 1.7s ease-in-out infinite alternate;
+}
+
+@keyframes boostFlicker {
+  to { opacity: 0.7; transform: translateY(-50%) scaleX(1.08); }
+}
+
+@keyframes headlightPulse {
+  to { opacity: 0.5; transform: scale(0.72); }
+}
+
+.movingRacer {
+  width: 164px;
+  height: 78px;
+  transform: translate(-45%, -47%);
+  transition: filter 180ms ease;
+}
+
+.movingRacer.leader {
+  filter: drop-shadow(0 0 17px rgba(248, 210, 74, 0.46));
+}
+
+.movingRacer.leader .boostTrail {
+  width: 82px;
+  opacity: 0.82;
+}
+
+.movingRacer.leader::after {
+  right: 11%;
+  bottom: 2px;
+  left: 11%;
+  height: 2px;
+}
+
+.movingRacer.obstacleDodge {
+  animation: obstacleHop 430ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+@keyframes obstacleHop {
+  0%, 100% { margin-top: 0; }
+  45% { margin-top: -10px; transform: translate(-45%, -47%) rotate(-2deg); }
+  70% { margin-top: -3px; transform: translate(-45%, -47%) rotate(1deg); }
+}
+
+.racerTag {
+  top: 5px;
+  max-width: 150px;
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(3, 5, 9, 0.88);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.5);
+}
+
+.racerTag b {
+  max-width: 98px;
+}
+
+.laneObstacle {
+  width: 28px;
+  height: 32px;
+  color: inherit;
+  filter: drop-shadow(0 5px 3px rgba(0, 0, 0, 0.52));
+  transform: translate(-50%, -42%);
+}
+
+.laneObstacle i,
+.laneObstacle b {
+  position: absolute;
+  display: block;
+}
+
+.obstacle-cone i {
+  right: 6px;
+  bottom: 5px;
+  left: 6px;
+  height: 25px;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, #fff 0 18%, #ff6d28 19% 48%, #fff 49% 62%, #ff6d28 63%);
+}
+
+.obstacle-cone b {
+  right: 2px;
+  bottom: 2px;
+  left: 2px;
+  height: 6px;
+  border-radius: 2px;
+  background: #ff6d28;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.obstacle-charge {
+  width: 33px;
+  height: 35px;
+}
+
+.obstacle-charge::before {
+  position: absolute;
+  inset: 1px 0 3px;
+  border: 4px solid #50dfff;
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  background: rgba(33, 118, 145, 0.15);
+  box-shadow: 0 0 11px #4addff, inset 0 0 10px rgba(74, 221, 255, 0.28);
+  content: "";
+}
+
+.obstacle-charge i {
+  top: 8px;
+  left: 13px;
+  width: 8px;
+  height: 15px;
+  background: #fff;
+  clip-path: polygon(55% 0, 100% 0, 68% 40%, 100% 40%, 30% 100%, 45% 55%, 12% 55%);
+  filter: drop-shadow(0 0 5px #fff);
+}
+
+.obstacle-tires i,
+.obstacle-tires b {
+  bottom: 4px;
+  width: 21px;
+  height: 21px;
+  border: 6px solid #0a0b0d;
+  border-radius: 50%;
+  background: #5e6570;
+  box-shadow: inset 0 0 0 2px #222730, 0 2px 1px rgba(255, 255, 255, 0.12);
+}
+
+.obstacle-tires i { left: 0; }
+.obstacle-tires b { right: 0; bottom: 8px; }
+
+.finishLine {
+  z-index: 6;
+  top: 41%;
+  bottom: 5%;
+  width: 13px;
+  background-size: 12px 12px;
+}
+
+.finishLine::before {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 38px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 20px 5px white;
+  content: "";
+  opacity: 0.65;
+  transform: translateX(-50%);
+}
+
+.momentToast {
+  top: 31%;
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(3, 5, 9, 0.91);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.46), inset 0 1px rgba(255, 255, 255, 0.09);
+}
+
+.impactFlash {
+  position: absolute;
+  z-index: 8;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.course.moment-hazard .impactFlash.hazard {
+  background: radial-gradient(circle at 52% 67%, rgba(255, 126, 56, 0.45), transparent 38%);
+  animation: impactFlash 380ms ease-out both;
+}
+
+.course.moment-boost .impactFlash.boost {
+  background: linear-gradient(90deg, transparent, rgba(72, 225, 255, 0.22), transparent);
+  animation: boostFlash 520ms ease-out both;
+}
+
+.course.moment-chaos .impactFlash.chaos {
+  background: radial-gradient(circle at 50% 50%, rgba(255, 41, 78, 0.22), transparent 54%);
+  animation: impactFlash 500ms ease-out both;
+}
+
+.course.moment-hazard .lanes {
+  animation: stadiumShake 320ms ease-out both;
+}
+
+@keyframes impactFlash {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes boostFlash {
+  0% { opacity: 0; transform: translateX(-20%); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(20%); }
+}
+
+@keyframes stadiumShake {
+  20% { transform: translateX(-4px); }
+  42% { transform: translateX(3px); }
+  64% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+.standingsBar {
+  bottom: 0.8%;
+}
+
+.winnerCard {
+  border-color: rgba(255, 255, 255, 0.26);
+  background:
+    radial-gradient(circle at 50% 0, rgba(248, 210, 74, 0.18), transparent 34%),
+    linear-gradient(145deg, rgba(20, 24, 34, 0.99), rgba(4, 6, 10, 0.99));
+  box-shadow: 0 36px 110px rgba(0, 0, 0, 0.72), 0 0 50px rgba(255, 35, 79, 0.09);
+}
+
+.winnerVisual {
+  width: 210px;
+  height: 96px;
+  transform: none;
+}
+
+.winnerVisual .racerVisual {
+  width: 205px;
+  height: 94px;
+}
+
+.winnerVisual .boostTrail {
+  opacity: 0.26;
+}
+
+@media (max-width: 800px) {
+  .headerSponsor {
+    display: none;
+  }
+
+  .brandMark b {
+    font-size: 12px;
+  }
+
+  .setupScreen > .sponsorBoards.compact {
+    width: calc(100% - 24px);
+    margin-top: 2px;
+  }
+
+  .sponsor {
+    min-height: 48px;
+    padding: 6px 7px;
+    column-gap: 4px;
+  }
+
+  .sponsor > span {
+    display: none;
+  }
+
+  .sponsor b {
+    font-size: 7px;
+  }
+
+  .sponsor small {
+    font-size: 5px;
+    letter-spacing: 0.04em;
+  }
+
+  .raceHeader {
+    height: 68px;
+    flex-basis: 68px;
+  }
+
+  .raceClock span {
+    max-width: 150px;
+    overflow: hidden;
+    font-size: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .stadiumDeck {
+    top: 1.2%;
+    right: 1.8%;
+    left: 1.8%;
+    grid-template-columns: 0.72fr 2.25fr;
+    gap: 4px;
+  }
+
+  .venueScoreboard {
+    min-height: 42px;
+    padding: 4px 6px;
+  }
+
+  .venueScoreboard b {
+    font-size: 7px;
+    letter-spacing: 0.04em;
+  }
+
+  .venueScoreboard small {
+    font-size: 4px;
+  }
+
+  .stadiumDeck .sponsor {
+    min-height: 42px;
+    padding: 4px 5px;
+  }
+
+  .stadiumDeck .sponsor b {
+    font-size: 5px;
+  }
+
+  .stadiumDeck .sponsor small {
+    font-size: 4px;
+  }
+
+  .lanes {
+    inset: 39% 0 7%;
+  }
+
+  .trackScroll {
+    top: 39%;
+    bottom: 7%;
+  }
+
+  .finishLine {
+    top: 39%;
+    bottom: 7%;
+  }
+
+  .movingRacer {
+    width: 142px;
+    height: 68px;
+    transform: translate(-45%, -47%) scale(0.66);
+  }
+
+  .racerVisual {
+    width: 142px;
+    height: 68px;
+  }
+
+  .racerTag {
+    top: 8px;
+  }
+
+  .laneObstacle {
+    transform: translate(-50%, -42%) scale(0.68);
+  }
+
+  .momentToast {
+    top: 30%;
+  }
+}
+
+@media (max-width: 520px) {
+  .setupScreen > .sponsorBoards.compact {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .setupScreen > .sponsorBoards.compact .sponsor {
+    min-height: 30px;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr;
+  }
+
+  .setupScreen > .sponsorBoards.compact .sponsor small {
+    margin: 0;
+  }
+
+  .stadiumDeck {
+    grid-template-columns: 1fr;
+  }
+
+  .venueScoreboard {
+    display: none;
+  }
+
+  .stadiumDeck .sponsorBoards {
+    gap: 3px;
+  }
+
+  .stadiumDeck .sponsor small {
+    display: none;
+  }
+
+  .lanes {
+    inset: 34% 0 8%;
+  }
+
+  .trackScroll {
+    top: 34%;
+    bottom: 8%;
+  }
+
+  .finishLine {
+    top: 34%;
+    bottom: 8%;
+  }
+
+  .movingRacer {
+    width: 128px;
+    height: 62px;
+    transform: translate(-45%, -47%) scale(0.6);
+  }
+
+  .racerVisual {
+    width: 128px;
+    height: 62px;
+  }
+
+  .momentToast {
+    top: 25%;
+  }
+
+  .racerTag {
+    top: 12px;
+  }
+}
+
+@media (max-height: 650px) and (orientation: landscape) {
+  .stadiumDeck {
+    top: 1%;
+  }
+
+  .stadiumDeck .sponsor {
+    min-height: 34px;
+  }
+
+  .venueScoreboard {
+    min-height: 34px;
+  }
+
+  .lanes {
+    inset: 31% 0 5%;
+  }
+
+  .trackScroll {
+    top: 31%;
+    bottom: 5%;
+  }
+
+  .finishLine {
+    top: 31%;
+    bottom: 5%;
+  }
+
+  .momentToast {
+    top: 22%;
+  }
+}
